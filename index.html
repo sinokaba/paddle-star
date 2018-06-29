@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="stylesheet.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="myjs.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="container">
+
+		<canvas id="gameCanvas" width="800" height="600">
+		</canvas>		
+
+		<div id="startButtonContainer">
+			<div id="startButton" class="absolute" type="button">Start</div>
+		</div>
+		<div id="menuScreen">
+
+		<!-- the form where player can input his nickname-->
+			<form class="absolute" style="left: 560px; top: 190px" name="playerName">
+				<h1>Name:</h1><input maxlength="8" name="username" id="userName" type="text" size = "20" placeholder="Your name or nickname" onclick='this.value = "";'/> 
+				<input type="button" id="nameButton" name="button" value="Confirm" onClick="getName()">
+			</form>
+
+			<!--drop down menu where player can select difficulty of game-->
+			<div id="gameDifficulty" style="left: 560px; top:290px" class="absolute">
+				<h1>Difficulty:</h1>
+
+				<select name="difficulty" id="difficulty">
+					<option value="1"> Easy</option>
+					<option value="2" selected="selected"> Normal</option>
+					<option value="3"> Hard</option>
+					<option value="4"> Godmode</option>
+				</select>
+			</div>
+			<!-- drop down menu where player can select themes they like-->
+			<div id="customizations" style="left:560px; top:390px" class="absolute">
+				<h1>Theme:</h1>
+				<select name="customs" id="customs">
+					<option value="1"> Dangerous Red</option>
+					<option value="2" SELECTED> Original</option>
+					<option value="3"> Inverted</option>
+					<option value="4"> Cool Blue</option>
+				</select>
+			</div>
+
+			<!-- all the buttons-->
+			<input type="button" id="dButton" name="button" value="Confirm" onClick="level()">
+
+			<input type="button" id="customButton" name="button" value="Confirm" onClick="custom()">
+
+			<input type="button" id="instructionsButton" value="Instructions" class="absolute"/>
+
+			<input id="playButton" class="absolute" Value="Play" type="button"/>
+			<div id="goBack">
+
+			<input id="backButton" class="absolute" Value="Back" type="button"/>
+			</div>
+
+			<div id="playAgainButton" class="absolute" type="button">Play Again</div>
+
+			<div id="backMenuButton" class="absolute" type="button" onClick="history.go(0)">Menu</div>
+			
+			<!--all images -->
+			<img src="instructionsTitle.png" id="inst" class="absolute" style="left:280px; top:30px; visibility: hidden">
+			<img src="instructions.png" id="instruc" class="absolute" style="left:280px; width:750px; height: 350px; top:90px; visibility: hidden">
+			<!--<img id="gameTitle" src="game_title.png" class="absolute" style="left: 365px; top:20px">-->
+			<img id="tennisPlayer" src="tennis_player.png" class="absolute" style="left: 350px; top:250px; width: 80px">
+			<img id="tennisPlayer" src="tennis_player.png" class=" absolute" style="left: 830px; top:250px; width: 80px">
+	</div>
+</div>
+</body>
+</html>
