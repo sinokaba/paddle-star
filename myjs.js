@@ -26,20 +26,20 @@ const paddle2X = 780;
 const paddle_length = 10;
 
 //loads the game when the page is done loading
-window.onload = function() {
+window.onload = function(){
     background_music = createSoundEffects("sound/background_music_bensound.mp3", .6);
     background_music.play();    
-    $("#startButton").click(function() {
+    $("#startButton").click(function(){
         $(this).css("display", "none");
         $("#menuScreen").css("visibility", "visible");
 
     });
-    $(document).keydown(function(event) {
+    $(document).keydown(function(event){
         if (event.which == 13) {
             $("#startButton").trigger('click');
         }
     });
-    $("#playButton").click(function() {
+    $("#playButton").click(function(){
         background_music.pause();
         if (gameDifficulty == null || name == null || customization == null) {
             alert("You didn't hit confirm")
@@ -50,14 +50,14 @@ window.onload = function() {
         }
         startGame();
     });
-    $("#instructionsButton").click(function() {
+    $("#instructionsButton").click(function(){
         $("#menuScreen").css("visibility", "hidden");
         $("#inst").css("visibility", "visible");
         $("#instruc").css("visibility", "visible");
         $("#goBack").css("visibility", "visible");
 
     });
-    $("#goBack").click(function() {
+    $("#goBack").click(function(){
         $("#inst").css("visibility", "hidden");
         $("#instruc").css("visibility", "hidden");
         $(this).css("visibility", "hidden");
@@ -73,12 +73,9 @@ window.onload = function() {
     //Loading of the home test image - img1
     var img1 = new Image();
     //drawing of the test image - img1
-    img1.onload = function () {
+    img1.onload = function(){
         //draw background image
         canvasContext.drawImage(img1, 0, 0);
-        //draw a box over the top
-        //canvasContext.fillStyle = "rgba(200, 0, 0, 0.5)";
-        //canvasContext.fillRect(0, 0, 500, 500);
     };
     img1.src = 'tennis_player.png';
 
@@ -97,45 +94,48 @@ window.onload = function() {
 
 function startGame(){
     var fps = 30;
-    setInterval(function() {
-        moveEverything(), drawEverything()
+    setInterval(function(){
+        ballAction(), drawStage()
     }, 1000 / fps);
-    $("#playAgainButton").click(function() {
+    $("#playAgainButton").click(function(){
         mouseClickPlay();
     });
     //calls mousemove function so player can control the paddle with mouse
-    canvas.addEventListener("mousemove", function(e) {
+    canvas.addEventListener("mousemove", function(e){
         var mousePos = calcMousePos(e);
         paddle1Y = mousePos.y - (playerPaddleHeight / 2);
     });
 }
 
-function level() {
+function level(){
     gameDifficulty = document.getElementById('difficulty').options[document.getElementById('difficulty').selectedIndex].text;
     console.log(gameDifficulty);
     setBallSpeed(gameDifficulty);
-	if (gameDifficulty == "Easy") {
+	if(gameDifficulty == "Easy"){
         playerPaddleHeight = 230;
         cpuPaddleHeight = 90;
         paddle1Y = (580 / 2) - (playerPaddleHeight / 2);
         paddle2Y = 290;
         ballSize = 25;
         cpuPaddleSpeed = 6;
-    } else if (gameDifficulty == "Normal") {
+    } 
+    else if(gameDifficulty == "Normal"){
         playerPaddleHeight = 120;
         cpuPaddleHeight = 120;
         paddle1Y = (580 / 2) - (playerPaddleHeight / 2);
         paddle2Y = (580 / 2) - (cpuPaddleHeight / 2);
         ballSize = 12;
         cpuPaddleSpeed = 9;
-    } else if (gameDifficulty == "Hard") {
+    } 
+    else if(gameDifficulty == "Hard"){
         playerPaddleHeight = 90;
         cpuPaddleHeight = 145;
         paddle1Y = (580 / 2) - (playerPaddleHeight / 2);
         paddle2Y = (580 / 2) - (cpuPaddleHeight / 2);
         ballSize = 8;
         cpuPaddleSpeed = 12.5;
-    } else if (gameDifficulty == "Godmode") {
+    } 
+    else if(gameDifficulty == "Godmode"){
         playerPaddleHeight = 70;
         cpuPaddleHeight = 185;
         paddle1Y = (580 / 2) - (playerPaddleHeight / 2);
@@ -146,16 +146,19 @@ function level() {
 };
 
 function setBallSpeed(gameDifficulty) {
-    if (gameDifficulty == "Easy") {
+    if(gameDifficulty == "Easy"){
         ballSpeedX = 5;
         ballSpeedY = 5;
-    } else if (gameDifficulty == "Normal") {
+    } 
+    else if (gameDifficulty == "Normal"){
         ballSpeedX = 9;
         ballSpeedY = 9;
-    } else if (gameDifficulty == "Hard") {
+    } 
+    else if (gameDifficulty == "Hard"){
         ballSpeedX = 16;
         ballSpeedY = 16;
-    } else if (gameDifficulty == "Godmode") {
+    } 
+    else if (gameDifficulty == "Godmode"){
         ballSpeedX = 20;
         ballSpeedY = 20;
     }
@@ -170,35 +173,37 @@ function createSoundEffects(soundSrc, vol){
 	return sound;
 }
 
-function custom() {
+function custom(){
     customization = document.getElementById('customs').options[document.getElementById('customs').selectedIndex].text;
     console.log(customization);
 };
 //gets location of mouse
-function calcMousePos(e) {
+function calcMousePos(e){
     var rect = canvas.getBoundingClientRect();
     var root = document.documentElement;
     var mouseX = e.clientX - rect.left - root.scrollLeft;
     var mouseY = e.clientY - rect.top - (root.scrollTop);
-    return {
+    
+    return{
         x: mouseX,
         y: mouseY
     };
 
 };
 
-function getName() {
+function getName(){
     var x = document.forms["playerName"]["username"].value;
-    if (x == null || x == "") {
+    if(x == null || x == ""){
         alert("Name must be filled out");
         return false;
-    } else {
+    } 
+    else{
         name = (document.getElementById('userName').value).toUpperCase();
     }
 };
 
-function mouseClickPlay() {
-    if (endGameScreen) {
+function mouseClickPlay(){
+    if(endGameScreen){
         $('#playAgainButton').css("visibility", "hidden");
         $("#highscores").css("visibility", "hidden");
         $("#backMenuButton").css("visibility", "hidden");
@@ -207,13 +212,16 @@ function mouseClickPlay() {
         player2Score = 0;
         life = 3;
         endGameScreen = false;
-        if (gameDifficulty == "Normal") {
+        if(gameDifficulty == "Normal"){
             playerPaddleHeight = 120;
-        } else if (gameDifficulty == "Easy") {
+        } 
+        else if (gameDifficulty == "Easy"){
             playerPaddleHeight = 250;
-        } else if (gameDifficulty == "Hard") {
+        } 
+        else if(gameDifficulty == "Hard"){
             playerPaddleHeight = 90;
-        } else if (gameDifficulty == "Godmode") {
+        } 
+        else if(gameDifficulty == "Godmode"){
             playerPaddleHeight = 70;
         }
     }
@@ -235,22 +243,23 @@ function ballReset(scored) {
 //function that creates the cpu ai, the cpu paddle moves depending on the location of the paddle relative to the location of the cpu paddle
 function CPUMovement() {
     paddle2Center = paddle2Y + (cpuPaddleHeight / 2);
-    if (paddle2Center < ballY - 40) {
+    if (paddle2Center < ballY - 40){
         paddle2Y += cpuPaddleSpeed;
-    } else if (paddle2Center > ballY + 40) {
+    } 
+    else if(paddle2Center > ballY + 40){
         paddle2Y -= cpuPaddleSpeed;
     }
 };
 
-function moveEverything() {
-    if (play == false) {
+function ballAction() {
+    if(play == false){
         return;
     }
-    if (life == 0) {
+    if(life == 0){
         endGameScreen = true;
     }
     //stops game when player runs out of lives
-    if (endGameScreen) {
+    if(endGameScreen){
         return;
     }
     //makes the ball bounce
@@ -259,79 +268,88 @@ function moveEverything() {
     ballY += ballSpeedY;
 
     //determines if the ball reaches the start of the x plane, and if it comes into contact with the paddle, if it does it bounces off and it's speed is reversed
-    if (ballX <= (15 + ballSize)) {
-        if (ballY > (paddle1Y - ballSize) && ballY < (paddle1Y + playerPaddleHeight + ballSize)) {
+    if(ballX <= (15 + ballSize)){
+        if(ballY > (paddle1Y - ballSize) && ballY < (paddle1Y + playerPaddleHeight + ballSize)){
             ballSpeedX = -ballSpeedX;
             hitSound.play();
             var deltaY = ballY - (paddle1Y + (playerPaddleHeight / 2))
             //changes the change in speed according to the size of the paddle, so the ball doesn't become too uncontrollable and fast when the player paddle becomes too big			
-            if (playerPaddleHeight >= 150) {
+            if(playerPaddleHeight >= 150){
                 ballSpeedY = deltaY * 0.15;
-            } else if (playerPaddleHeight >= 250) {
+            } 
+            else if (playerPaddleHeight >= 250){
                 ballSpeedY = deltaY * 0.09;
-            } else {
+            }
+            else{
                 ballSpeedY = deltaY * 0.35;
             }
-        } else {
+        }
+        else{
             //if the player is unable to hit the ball with the paddle the cpu scores
             player2Score++;
             missSound.play();
             ballReset(1);
             life--;
         }
-    } else if (ballX >= (canvas.width - (15 + ballSize))) {
+    }
+    else if(ballX >= (canvas.width - (15 + ballSize))){
         //determines if the ball is hit by the paddle, and changes it's speed in regards to where it hits the paddle(if it gets hit at the end it becomes fast, makes for easier scoring for highest skilled players)
-        if (ballY > (paddle2Y - ballSize) && ballY < (paddle2Y + cpuPaddleHeight + ballSize)) {
+        if(ballY > (paddle2Y - ballSize) && ballY < (paddle2Y + cpuPaddleHeight + ballSize)){
             ballSpeedX = -ballSpeedX;
             hitSound.play();
             var deltaY = ballY - (paddle2Y + (cpuPaddleHeight / 2))
-            if (playerPaddleHeight >= 150) {
+            if(playerPaddleHeight >= 150){
                 ballSpeedY = deltaY * 0.15;
-            } else {
+            } 
+            else{
                 ballSpeedY = deltaY * 0.35;
             }
-        } else {
+        } 
+        else{
             //if the cpu is unable to return the ball, the player gets a score
             player1Score++;
-
             missSound.play();
             ballReset(0);
         }
     };
     //determines vertical(Y) position of the ball, and reverses it's speed, to make it bounce, if it reaches the lowest and highest boundary
-    if (ballY <= 27) {
+    if(ballY <= 27){
         ballSpeedY = -ballSpeedY;
         bounceSound.play();
-    } else if (ballY >= canvas.height - 27) {
+    }
+    else if(ballY >= canvas.height - 27){
         ballSpeedY = -ballSpeedY;
         bounceSound.play();
     }
 };
 //function that draws net, uses for loop to equally seperate the triangles, at an interval of 40 px.
 function drawNet() {
-    for (var i = 0; i < canvas.height; i += 40) {
-        if (customization == "Original") {
+    for(var i = 0; i < canvas.height; i += 40){
+        if(customization == "Original"){
             createRect(canvas.width / 2 - 1, i, 4, 20, "white");
-        } else if (customization == "Inverted") {
+        } 
+        else if(customization == "Inverted"){
             createRect(canvas.width / 2 - 1, i, 4, 20, "black");
 
-        } else if (customization == "Dangerous Red") {
+        } 
+        else if(customization == "Dangerous Red"){
             createRect(canvas.width / 2 - 1, i, 4, 20, "red");
-        } else if (customization == "Cool Blue") {
+        } 
+        else if customization == "Cool Blue"){
             createRect(canvas.width / 2 - 1, i, 4, 20, "blue");
 
         }
     }
 };
 
-function drawEverything() {
-    if(customization == "Original") {
+function drawStage() {
+    if(customization == "Original"){
         createRect(0, 0, canvas.width, canvas.height, "black");
     } 
-    else if (customization == "Inverted") {
+    else if(customization == "Inverted"){
         createRect(0, 0, canvas.width, canvas.height, "white");
     }
-    if(play == false) {
+    if(play == false){
         return;
     }
     //determines if player ran out of lives and that the game is over, if it is it freezes everything and displays end game screen
@@ -354,7 +372,7 @@ function drawEverything() {
         }
 
         var highscoreColor = canvasContext.createLinearGradient(0, 0, canvas.width, 0);
-        if(customization == "Inverted") {
+        if(customization == "Inverted"){
             highscoreColor.addColorStop("1.0", "black");
         }
         else{
@@ -365,13 +383,13 @@ function drawEverything() {
         canvasContext.fillStyle = highscoreColor;
         canvasContext.fillText("Highscores: ", 60, 50);
         canvasContext.font = "37px Courier New";
-        if(player1Score >= highscore1) {
+        if(player1Score >= highscore1){
             highscore1 = player1Score;
         } 
-        else if(player1Score >= highscore2) {
+        else if(player1Score >= highscore2){
             highscore2 = player1Score;
         } 
-        else if(player1Score >= highscore3) {
+        else if(player1Score >= highscore3){
             highscore3 = player1Score;
         }
         canvasContext.fillText("1. " + name + " - " + highscore1 + " Points", 75, 130);
@@ -391,15 +409,14 @@ function drawEverything() {
     canvasContext.fillText("SCORE: " + player1Score, 25, 70);
 
     //PowerUps 
-    if (player1Score != 0) {
-        if (player1Score % 3 == 0 && usePowerUp == false && powerUp == 1) {
+    if(player1Score != 0){
+        if(player1Score % 3 == 0 && usePowerUp == false && powerUp == 1){
             //extra life powerup, rarer than increase length powerup
-            //computes pseudo-random number from 0-3, 4 is excluded because it rounds down
-            if (whichPowerUp <= 0.1) {
+            if(whichPowerUp <= 0.1){
             	createExtraLifePU();
             }
             //increase length powerup
-            else {
+            else{
             	createPaddlePU();
             }
 
@@ -409,7 +426,7 @@ function drawEverything() {
 };
 
 function drawPaddles(){
-    if (customization == "Original") {
+    if(customization == "Original"){
         createRect(paddle1X, paddle1Y, paddle_length, playerPaddleHeight, "white");
         //creates cpu paddle
         createRect(paddle2X, paddle2Y, paddle_length, cpuPaddleHeight, "white");
@@ -417,17 +434,20 @@ function drawPaddles(){
         drawNet();
         //creates ball
         createCircle(ballX, ballY, ballSize, "white");
-    } else if (customization == "Inverted") {
+    } 
+    else if(customization == "Inverted"){
         createRect(paddle1X, paddle1Y, paddle_length, playerPaddleHeight, "black");
         createRect(paddle2X, paddle2Y, paddle_length, cpuPaddleHeight, "black");
         drawNet();
         createCircle(ballX, ballY, ballSize, "black");
-    } else if (customization == "Dangerous Red") {
+    } 
+    else if(customization == "Dangerous Red"){
         createRect(paddle1X, paddle1Y, paddle_length, playerPaddleHeight, "red");
         createRect(paddle2X, paddle2Y, paddle_length, cpuPaddleHeight, "red");
         drawNet();
         createCircle(ballX, ballY, ballSize, "red");
-    } else if (customization == "Cool Blue") {
+    } 
+    else if(customization == "Cool Blue"){
         createRect(paddle1X, paddle1Y, paddle_length, playerPaddleHeight, "blue");
         createRect(paddle2X, paddle2Y, paddle_length, cpuPaddleHeight, "blue");
         drawNet();
@@ -441,37 +461,37 @@ function createExtraLifePU(){
     canvasContext.font = "bold 18px Roboto";
     canvasContext.fillText("Power Up Available. Hit it and get an extra life!", 410, 40);
     canvasContext.fillText("It will dissapear once you score.", 410, 60);
-    if (powerUpLocation == 0) {
+    if(powerUpLocation == 0){
         canvasContext.arc(450, 290, 23, 0, Math.PI * 2, true);
         canvasContext.fill();
-        if (ballX >= 420 && ballX <= 480 && ballY >= 260 && ballY <= 320) {
+        if(ballX >= 420 && ballX <= 480 && ballY >= 260 && ballY <= 320){
             life++;
             usePowerUp = true;
             powerUpSound.play();
         }
     }
-    if (powerUpLocation == 1) {
+    if(powerUpLocation == 1){
         canvasContext.arc(220, 200, 23, 0, Math.PI * 2, true);
         canvasContext.fill();
-        if (ballX >= 190 && ballX <= 250 && ballY >= 170 && ballY <= 230) {
+        if(ballX >= 190 && ballX <= 250 && ballY >= 170 && ballY <= 230){
             life++;
             usePowerUp = true;
             powerUpSound.play();
         }
     }
-    if (powerUpLocation == 2) {
+    if(powerUpLocation == 2){
         canvasContext.arc(665, 380, 23, 0, Math.PI * 2, true);
         canvasContext.fill();
-        if (ballX >= 635 && ballX <= 695 && ballY >= 350 && ballY <= 410) {
+        if(ballX >= 635 && ballX <= 695 && ballY >= 350 && ballY <= 410){
             life++;
             usePowerUp = true;
             powerUpSound.play();
         }
     }
-    if (powerUpLocation == 3) {
+    if(powerUpLocation == 3){
         canvasContext.arc(100, 290, 23, 0, Math.PI * 2, true);
         canvasContext.fill();
-        if (ballX >= 70 && ballX <= 130 && ballY >= 260 && ballY <= 320) {
+        if(ballX >= 70 && ballX <= 130 && ballY >= 260 && ballY <= 320){
             life++;
             usePowerUp = true;
             powerUpSound.play();
@@ -484,33 +504,33 @@ function createPaddlePU(){
     canvasContext.font = "bold 18px Roboto";
     canvasContext.fillText("Power Up Available. Hit it to increase paddle size!", 410, 40);
     canvasContext.fillText("It will dissapear once you score.", 410, 60);
-    if (powerUpLocation == 0) {
+    if(powerUpLocation == 0){
         createRect(150, 450, 25, 25, "green");
-        if (ballX >= 125 && ballX <= 170 && ballY >= 425 && ballY <= 470) {
+        if(ballX >= 125 && ballX <= 170 && ballY >= 425 && ballY <= 470){
             playerPaddleHeight += (playerPaddleHeight * .3);
             usePowerUp = true;
             powerUpSound.play();
         }
     }
-    if (powerUpLocation == 1) {
+    if(powerUpLocation == 1){
         createRect(390, 75, 25, 25, "green");
-        if (ballX >= 365 && ballX <= 410 && ballY >= 50 && ballY <= 95) {
+        if(ballX >= 365 && ballX <= 410 && ballY >= 50 && ballY <= 95){
             playerPaddleHeight += (playerPaddleHeight * .3);
             usePowerUp = true;
             powerUpSound.play();
         }
     }
-    if (powerUpLocation == 2) {
+    if(powerUpLocation == 2){
         createRect(750, 260, 25, 25, "green");
-        if (ballX >= 725 && ballX <= 770 && ballY >= 235 && ballY <= 280) {
+        if(ballX >= 725 && ballX <= 770 && ballY >= 235 && ballY <= 280){
             playerPaddleHeight += (playerPaddleHeight * .3);
             usePowerUp = true;
             powerUpSound.play();
         }
     }
-    if (powerUpLocation == 3) {
+    if(powerUpLocation == 3){
         createRect(575, 310, 25, 25, "green");
-        if (ballX >= 550 && ballX <= 595 && ballY >= 285 && ballY <= 330) {
+        if(ballX >= 550 && ballX <= 595 && ballY >= 285 && ballY <= 330){
             playerPaddleHeight += (playerPaddleHeight * .3);
             usePowerUp = true;
             powerUpSound.play();
@@ -519,7 +539,7 @@ function createPaddlePU(){
 }
 
 //function for creating circles{
-function createCircle(centerX, centerY, radius, drawColor) {
+function createCircle(centerX, centerY, radius, drawColor){
     canvasContext.beginPath();
     canvasContext.fillStyle = drawColor;
     //make circle (x,y,radius,start angle, end angle,(False)clockwise or (true)counterclockwise)
@@ -528,7 +548,7 @@ function createCircle(centerX, centerY, radius, drawColor) {
 
 };
 //function for creating rectangle images
-function createRect(leftX, topY, width, height, drawColor) {
+function createRect(leftX, topY, width, height, drawColor){
     canvasContext.fillStyle = drawColor;
     canvasContext.fillRect(leftX, topY, width, height);
 };
